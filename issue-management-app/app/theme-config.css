@@ -1,0 +1,6 @@
+.radix-themes {
+    --default-font-family: var(--font-inter);
+}
+
+/* nextjs와 radix.ui의 기본 폰트 이슈 해결을 위함 */
+/* nextjs에서 css는 app 폴더 하위에 생성 */
