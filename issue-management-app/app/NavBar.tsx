@@ -18,11 +18,18 @@ const NavBar = () => {
     return (
         <nav className="flex space-x-6 border-b mb-5 px-5 items-center h-14">
             <Link href="/">
+                {/*리액트 이미지 아이콘*/}
                 <FaTasks />
             </Link>
+            {/*
+             * nextJs는 파일 구조로 라우팅
+             * /issues 경로에 대한 라우팅을 설정하지 않아서 파일 디렉토리에 issues 폴더를 만들고
+             * 그 안에 page.tsx 파일을 만들어서 라우팅을 설정
+             */}
             <ul className="flex space-x-6">
                 {links.map((link) => (
-                    <Link // 현재 url 주소에 맞춰 nav 이벤트 처리
+                    <Link
+                        // 현재 url 주소에 맞춰 nav 이벤트 처리
                         className={`${link.href === currentPath ? 'text-zinc-900' : 'text-zinc-500'}
                             hover:text-zinc-800 transition-colors`}
                         key={link.href}
