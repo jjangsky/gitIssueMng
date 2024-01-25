@@ -10,6 +10,7 @@ import axios from 'axios';
 import { createIssueSchema } from '@/app/validationSchemas';
 import { z } from 'zod';
 import ErrorMessage from '@/app/components/ErrorMessage';
+import Spinner from '@/app/components/Spinner';
 
 // interface IssueForm {
 //     title: string;
@@ -33,6 +34,7 @@ const NewIssuePage = () => {
     });
     const router = useRouter();
     const [error, setError] = useState('');
+    const [isSibmitting, setIsSubmitting] = useState(false); // 제출 버튼 클릭 시, 로딩 표시를 위한 state
     console.log(register('title'));
 
     return (
@@ -47,9 +49,11 @@ const NewIssuePage = () => {
                 className="max-w-xl space-y-3"
                 onSubmit={handleSubmit(async (data) => {
                     try {
+                        setIsSubmitting(true);
                         await axios.post('/api/issues', data);
                         router.push('/issues');
                     } catch (error) {
+                        setIsSubmitting(false);
                         setError('예상치 못한 오류 발생');
                     }
                 })}
@@ -67,7 +71,10 @@ const NewIssuePage = () => {
                     // render 프로퍼티의 콜백함수의 인자는 앞서 정의한 Register 함수가 리턴하는 객체와 동일한 형태
                 />
                 <ErrorMessage>{errors?.description?.message}</ErrorMessage>
-                <Button>Create New Issue</Button>
+                <Button disabled={isSibmitting}>
+                    Create New Issue
+                    {isSibmitting && <Spinner />}
+                </Button>
             </form>
         </div>
     );
