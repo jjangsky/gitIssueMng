@@ -9,6 +9,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import axios from 'axios';
 import { createIssueSchema } from '@/app/validationSchemas';
 import { z } from 'zod';
+import ErrorMessage from '@/app/components/ErrorMessage';
 
 // interface IssueForm {
 //     title: string;
@@ -57,23 +58,15 @@ const NewIssuePage = () => {
                     <TextField.Input placeholder="Title" {...register('title')} />
                     {/* 스프레드 문법을 사용 -> register에 다수의 프로퍼티가 존재  */}
                 </TextField.Root>
-                {errors.title && (
-                    // 클라이언트측 에러 발생 시, 에러 메시지 출력
-                    <Text color="red" as="p">
-                        {errors.title.message}
-                    </Text>
-                )}
+                {/*클라이언트측 에러 발생 시, 에러 메시지 출력, 에러 메세지 컴포넌트 재사용 */}
+                <ErrorMessage>{errors?.title?.message}</ErrorMessage>
                 <Controller
                     name="description"
                     control={control}
                     render={({ field }) => <SimpleMDE placeholder="Description" {...field} />}
                     // render 프로퍼티의 콜백함수의 인자는 앞서 정의한 Register 함수가 리턴하는 객체와 동일한 형태
                 />
-                {errors.description && (
-                    <Text color="red" as="p">
-                        {errors.description.message}
-                    </Text>
-                )}
+                <ErrorMessage>{errors?.description?.message}</ErrorMessage>
                 <Button>Create New Issue</Button>
             </form>
         </div>
