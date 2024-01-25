@@ -1,12 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import prisma from '@/prisma/client';
+import { createIssueSchema } from '@/app/validationSchemas';
 
-// zod를 사용하여 파라미터 검증 처리
+/*
+zod를 사용하여 파라미터 검증 처리 --> 해당 검증 처리는 validationSchemas.ts로 분리
 const createIssueSchema = z.object({
     title: z.string().min(1, '글자가 짧다').max(255), // 두번째 인자로 오류메시지 설정 가느
     description: z.string().min(1),
-});
+}); */
 
 export async function POST(request: NextRequest) {
     // 이슈 생성 시 사용되는 API
