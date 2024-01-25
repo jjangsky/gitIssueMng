@@ -4,7 +4,7 @@ import prisma from '@/prisma/client';
 
 // zod를 사용하여 파라미터 검증 처리
 const createIssueSchema = z.object({
-    title: z.string().min(1).max(255),
+    title: z.string().min(1, '글자가 짧다').max(255), // 두번째 인자로 오류메시지 설정 가느
     description: z.string().min(1),
 });
 
