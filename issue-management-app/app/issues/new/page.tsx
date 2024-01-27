@@ -37,6 +37,17 @@ const NewIssuePage = () => {
     const [isSibmitting, setIsSubmitting] = useState(false); // 제출 버튼 클릭 시, 로딩 표시를 위한 state
     console.log(register('title'));
 
+    const onSubmit = handleSubmit(async (data) => {
+        try {
+            setIsSubmitting(true);
+            await axios.post('/api/issues', data);
+            router.push('/issues');
+        } catch (error) {
+            setIsSubmitting(false);
+            setError('예상치 못한 오류 발생');
+        }
+    });
+
     return (
         <div className="max-w-xl">
             {error && ( // (서버측)오류가 발생했을 때, 에러 메시지 출력 -> state 사용하여 리렌더링
@@ -45,19 +56,7 @@ const NewIssuePage = () => {
                 </Callout.Root>
             )}
 
-            <form
-                className="max-w-xl space-y-3"
-                onSubmit={handleSubmit(async (data) => {
-                    try {
-                        setIsSubmitting(true);
-                        await axios.post('/api/issues', data);
-                        router.push('/issues');
-                    } catch (error) {
-                        setIsSubmitting(false);
-                        setError('예상치 못한 오류 발생');
-                    }
-                })}
-            >
+            <form className="max-w-xl space-y-3" onSubmit={onSubmit}>
                 <TextField.Root>
                     <TextField.Input placeholder="Title" {...register('title')} />
                     {/* 스프레드 문법을 사용 -> register에 다수의 프로퍼티가 존재  */}
