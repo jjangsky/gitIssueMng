@@ -13,8 +13,9 @@ import { z } from 'zod';
 import { ErrorMessage } from '@/app/components/index';
 import Spinner from '@/app/components/Spinner';
 import { Issue } from '@prisma/client';
+import SimpleMDE from 'react-simplemde-editor';
 
-const SimpleMDE = dynamic(() => import('react-simplemde-editor'), { ssr: false });
+// const SimpleMDE = dynamic(() => import('react-simplemde-editor'), { ssr: false });
 
 type IssueFormData = z.infer<typeof issueSchema>;
 // 원래는 클라이언트에서도 type 체크를 위해 객체의 interface를 정의해야 하지만

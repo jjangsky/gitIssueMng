@@ -9,6 +9,7 @@ import { Pencil2Icon } from '@radix-ui/react-icons';
 import Link from 'next/link';
 import EditIssueButton from './EditIssueButton';
 import IssueDetails from './IssueDetails';
+import DeleteUssueButton from './DeleteIssueButton';
 
 interface Props {
     params: { id: string };
@@ -32,12 +33,15 @@ const IssueDetailPage = async ({ params }: Props) => {
     return (
         // Grid 컴포넌트를 사용하여 반응형 웹 구현
         // initial -> 초기값, md -> 중간 사이즈 이상일 경우, 2개의 컬럼으로 표시
-        <Grid columns={{ initial: '1', md: '2' }} gap="5">
-            <Box>
+        <Grid columns={{ initial: '1', md: '5' }} gap="5">
+            <Box className="lg:col-span-4">
                 <IssueDetails issue={issue} />
             </Box>
             <Box>
-                <EditIssueButton issueId={issue.id} />
+                <Flex direction="column" gap="4">
+                    <EditIssueButton issueId={issue.id} />
+                    <DeleteUssueButton issueId={issue.id} />
+                </Flex>
             </Box>
         </Grid>
     );
