@@ -1,6 +1,7 @@
 'use client';
 import { Button, TextField, TextArea, Callout, Text } from '@radix-ui/themes';
-import SimpleMDE from 'react-simplemde-editor';
+import dynamic from 'next/dynamic';
+// import SimpleMDE from 'react-simplemde-editor';
 import { useForm, Controller } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import 'easymde/dist/easymde.min.css';
@@ -11,6 +12,9 @@ import { createIssueSchema } from '@/app/validationSchemas';
 import { z } from 'zod';
 import ErrorMessage from '@/app/components/ErrorMessage';
 import Spinner from '@/app/components/Spinner';
+
+// 서버사이드 렌더링 해제, 서버에서 해당 컴포넌트는 렌더링하지 않게 됨
+const SimpleMDE = dynamic(() => import('react-simplemde-editor'), { ssr: false });
 
 // interface IssueForm {
 //     title: string;
