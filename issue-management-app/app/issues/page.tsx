@@ -3,16 +3,12 @@ import { Table } from '@radix-ui/themes';
 import Link from '../components/Link';
 import prisma from '@/prisma/client';
 import IssueStatusBadge from '@/app/components/IssueStatusBadge';
-import delay from 'delay';
-import LoadingIssuesPage from './loading';
 import IssueActions from './issueActions';
 
 const IssuesPage = async () => {
     const issues = await prisma.issue.findMany();
     // tailwindcss에서는 반응형 웹을 위해 hidden 클래스를 제공
     // md -> 중간 사이즈 이상일 경우, table-cell 클래스를 추가하여 테이블 셀로 표시
-
-    await delay(1000);
 
     return (
         <div>
