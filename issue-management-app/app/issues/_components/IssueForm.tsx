@@ -45,8 +45,9 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
             } else {
                 // 존재하지 않으면 생성
                 await axios.post('/api/issues', data);
-                router.push('/issues');
             }
+            router.push('/issues');
+            router.refresh(); // 캐시 초기화
         } catch (error) {
             setIsSubmitting(false);
             setError('예상치 못한 오류 발생');
