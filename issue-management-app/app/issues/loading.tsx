@@ -6,6 +6,10 @@ import IssueActions from './issueActions';
 
 const LoadingIssuesPage = () => {
     const issues = [1, 2, 3, 4, 5];
+
+    // 해당 로딩 컴포넌트는 issues 내부에서 사용되었으므로
+    // 이슈와 관련된 모든 페이지에서 로딩 컴포넌트가 실핻된다.
+
     return (
         <div>
             <IssueActions />
