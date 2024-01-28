@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import prisma from '@/prisma/client';
-import { createIssueSchema } from '@/app/validationSchemas';
+import { issueSchema } from '@/app/validationSchemas';
 
 /*
 zod를 사용하여 파라미터 검증 처리 --> 해당 검증 처리는 validationSchemas.ts로 분리
@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
 
     // api 검증을 위해 zod 설치 필요
     const body = await request.json();
-    const validation = createIssueSchema.safeParse(body);
+    const validation = issueSchema.safeParse(body);
     // safeParse 메소드는 유효성 검사 실패시 시스템을 멈추는 대신, 오류가 담긴 객체를 리턴
 
     // 함수를 호출하기 앞서 현재 앱에서 모든 API가 동일한 Prisma 인스턴스와
