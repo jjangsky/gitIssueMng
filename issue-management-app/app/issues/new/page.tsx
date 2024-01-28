@@ -10,7 +10,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import axios from 'axios';
 import { createIssueSchema } from '@/app/validationSchemas';
 import { z } from 'zod';
-import ErrorMessage from '@/app/components/ErrorMessage';
+import { ErrorMessage } from '@/app/components/index';
 import Spinner from '@/app/components/Spinner';
 
 // 서버사이드 렌더링 해제, 서버에서 해당 컴포넌트는 렌더링하지 않게 됨
