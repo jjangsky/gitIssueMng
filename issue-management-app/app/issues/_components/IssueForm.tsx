@@ -39,8 +39,14 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
     const onSubmit = handleSubmit(async (data) => {
         try {
             setIsSubmitting(true);
-            await axios.post('/api/issues', data);
-            router.push('/issues');
+            if (issue) {
+                // 인자값 존재하면 수정
+                await axios.patch(`/api/issues/${issue.id}`, data);
+            } else {
+                // 존재하지 않으면 생성
+                await axios.post('/api/issues', data);
+                router.push('/issues');
+            }
         } catch (error) {
             setIsSubmitting(false);
             setError('예상치 못한 오류 발생');
@@ -75,7 +81,7 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
                 />
                 <ErrorMessage>{errors?.description?.message}</ErrorMessage>
                 <Button disabled={isSibmitting}>
-                    Update Issue
+                    {issue ? 'Update Issue' : 'Submit New Issue'}
                     {isSibmitting && <Spinner />}
                 </Button>
             </form>
