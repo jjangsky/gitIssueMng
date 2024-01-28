@@ -8,7 +8,7 @@ import 'easymde/dist/easymde.min.css';
 import React, { use, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import axios from 'axios';
-import { createIssueSchema } from '@/app/validationSchemas';
+import { issueSchema } from '@/app/validationSchemas';
 import { z } from 'zod';
 import { ErrorMessage } from '@/app/components/index';
 import Spinner from '@/app/components/Spinner';
@@ -16,7 +16,7 @@ import { Issue } from '@prisma/client';
 
 const SimpleMDE = dynamic(() => import('react-simplemde-editor'), { ssr: false });
 
-type IssueFormData = z.infer<typeof createIssueSchema>;
+type IssueFormData = z.infer<typeof issueSchema>;
 // 원래는 클라이언트에서도 type 체크를 위해 객체의 interface를 정의해야 하지만
 // 객체 필드 변경 시, 클라이언트와 서버 양 측에 선언된 interface를 모두 변경해야 하는 번거로움이 존재
 // 이를 해결하기 위해 zod 라이브러리를 사용하여 type 체크를 진행
@@ -29,7 +29,7 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
         handleSubmit,
         formState: { errors },
     } = useForm<IssueFormData>({
-        resolver: zodResolver(createIssueSchema),
+        resolver: zodResolver(issueSchema),
     });
     const router = useRouter();
     const [error, setError] = useState('');
