@@ -1,5 +1,6 @@
 import { issueSchema } from '@/app/validationSchemas';
 import { NextRequest, NextResponse } from 'next/server';
+import delay from 'delay';
 import prisma from '@/prisma/client';
 
 export async function PATCH(request: NextRequest, { params }: { params: { id: string } }) {
@@ -29,8 +30,9 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
     return NextResponse.json(updatedIssue);
 }
 
-export async function DELTE(request: NextRequest, { params }: { params: { id: string } }) {
+export async function POST(request: NextRequest, { params }: { params: { id: string } }) {
     // 이슈 삭제 API
+    await delay(1000);
     const issue = await prisma.issue.findUnique({
         where: { id: parseInt(params.id) },
     });
