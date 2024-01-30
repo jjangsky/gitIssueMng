@@ -5,6 +5,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import { Theme, ThemePanel, Container } from '@radix-ui/themes';
+import AuthProvider from './auth/Provider';
 
 // radix-ui theme -> css 컴포넌트가 구성되어 편함
 // 해당 페이지에서 선언하고 전역으로 사용
@@ -26,16 +27,17 @@ export default function RootLayout({
         <html lang="en">
             <body className={inter.variable}>
                 {/** 전역으로 radix의 theme 컴포넌트 설정 */}
-
-                <Theme>
-                    <NavBar />
-                    <main className="p-5">
-                        <Container> {children} </Container>
-                    </main>
-                    {/* <ThemePanel /> 
+                <AuthProvider>
+                    <Theme>
+                        <NavBar />
+                        <main className="p-5">
+                            <Container> {children} </Container>
+                        </main>
+                        {/* <ThemePanel /> 
                      -> 테마 패널 이용시 사용자 화면에서 테마 변경을 볼 수 있음
                     */}
-                </Theme>
+                    </Theme>
+                </AuthProvider>
             </body>
         </html>
     );
