@@ -7,7 +7,7 @@ import React from 'react';
 import { FaTasks } from 'react-icons/fa';
 import { usePathname } from 'next/navigation';
 import { useSession } from 'next-auth/react';
-import { Box, Flex, Container } from '@radix-ui/themes';
+import { Box, Flex, Container, DropdownMenu, Avatar, Text } from '@radix-ui/themes';
 
 // 현재 auth.js 를 사용하고 있으므로 지정한 api를 사용해 로그인/로그아웃 처리를 해야함
 
@@ -55,7 +55,28 @@ const NavBar = () => {
                         </ul>
                     </Flex>
                     <Box>
-                        {status === 'authenticated' && <Link href="/api/auth/signout">Logout</Link>}
+                        {status === 'authenticated' && (
+                            <DropdownMenu.Root>
+                                <DropdownMenu.Trigger>
+                                    {/* 사용자 이미지가 존재하지 않는 상황을 대비해서 !를 추가함*/}
+                                    <Avatar
+                                        src={session?.user!.image!}
+                                        fallback="?"
+                                        size="2"
+                                        radius="full"
+                                        className="cursor-pointer"
+                                    />
+                                </DropdownMenu.Trigger>
+                                <DropdownMenu.Content>
+                                    <DropdownMenu.Label>
+                                        <Text size="2">{session.user!.email}</Text>
+                                    </DropdownMenu.Label>
+                                    <DropdownMenu.Item>
+                                        <Link href="/api/auth/signout">Logout</Link>
+                                    </DropdownMenu.Item>
+                                </DropdownMenu.Content>
+                            </DropdownMenu.Root>
+                        )}
                         {status === 'unauthenticated' && <Link href="/api/auth/signin">Login</Link>}
                     </Box>
                 </Flex>
