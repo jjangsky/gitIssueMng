@@ -6,10 +6,17 @@ import Link from 'next/link';
 import React from 'react';
 import { FaTasks } from 'react-icons/fa';
 import { usePathname } from 'next/navigation';
+import { useSession } from 'next-auth/react';
+import { Box } from '@radix-ui/themes';
+
+// 현재 auth.js 를 사용하고 있으므로 지정한 api를 사용해 로그인/로그아웃 처리를 해야함
 
 const NavBar = () => {
-    const currentPath = usePathname();
     // 현재 url 주소를 가져오는 hook
+    const currentPath = usePathname();
+
+    // 로그인 정보를 가져오는 hook
+    const { status, data: session } = useSession();
 
     const links = [
         { lavel: 'Dashboard', href: '/' },
@@ -39,6 +46,10 @@ const NavBar = () => {
                     </Link>
                 ))}
             </ul>
+            <Box>
+                {status === 'authenticated' && <Link href="/api/auth/signout">Logout</Link>}
+                {status === 'unauthenticated' && <Link href="/api/auth/signin">Login</Link>}
+            </Box>
         </nav>
     );
 };
