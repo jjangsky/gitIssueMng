@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import prisma from '@/prisma/client';
 import { issueSchema } from '@/app/validationSchemas';
+import { getServerSession } from 'next-auth';
+import authOptions from '@/app/auth/authOptions';
 
 /*
 zod를 사용하여 파라미터 검증 처리 --> 해당 검증 처리는 validationSchemas.ts로 분리
@@ -10,9 +12,12 @@ const createIssueSchema = z.object({
     description: z.string().min(1),
 }); */
 
+// 이슈 생성 시 사용되는 API
+// 인자는 NextRequest 타입 받음
 export async function POST(request: NextRequest) {
-    // 이슈 생성 시 사용되는 API
-    // 인자는 NextRequest 타입 받음
+    // 세션 정보를 확인하여 세션이 없는 경우 401 에러 반환
+    const session = await getServerSession(authOptions);
+    if (!session) return NextResponse.json({}, { status: 401 });
 
     // api 검증을 위해 zod 설치 필요
     const body = await request.json();
