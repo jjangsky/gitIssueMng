@@ -8,6 +8,7 @@ import { FaTasks } from 'react-icons/fa';
 import { usePathname } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { Box, Flex, Container, DropdownMenu, Avatar, Text } from '@radix-ui/themes';
+import Skeleton from 'react-loading-skeleton';
 
 // 현재 auth.js 를 사용하고 있으므로 지정한 api를 사용해 로그인/로그아웃 처리를 해야함
 
@@ -63,7 +64,7 @@ const AuthStatus = () => {
     // 로그인 정보를 가져오는 hook
     const { status, data: session } = useSession();
 
-    if (status === 'loading') return null;
+    if (status === 'loading') return <Skeleton width={3} />;
 
     if (status === 'unauthenticated') return <Link href="/api/auth/signin">Login</Link>;
     return (
