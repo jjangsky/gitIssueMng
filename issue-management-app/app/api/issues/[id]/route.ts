@@ -1,4 +1,4 @@
-import { issueSchema } from '@/app/validationSchemas';
+import { issueSchema, patchIssueSchma } from '@/app/validationSchemas';
 import { NextRequest, NextResponse } from 'next/server';
 import delay from 'delay';
 import prisma from '@/prisma/client';
@@ -12,9 +12,19 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
 
     // 이슈 수정 API
     const body = await request.json();
-    const validation = issueSchema.safeParse(body);
+    const validation = patchIssueSchma.safeParse(body);
     if (!validation.success) {
         return NextResponse.json(validation.error.format(), { status: 400 });
+    }
+
+    const { assignedToUserId, title, description } = body;
+    if (assignedToUserId) {
+        const user = await prisma.user.findUnique({
+            where: { id: assignedToUserId },
+        });
+        if (!user) {
+            return NextResponse.json({ error: '담당자를 찾을 수 없습니다.' }, { status: 404 });
+        }
     }
 
     const issue = await prisma.issue.findUnique({
@@ -28,8 +38,9 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
     const updatedIssue = await prisma.issue.update({
         where: { id: parseInt(params.id) },
         data: {
-            title: body.title,
-            description: body.description,
+            title,
+            description,
+            assignedToUserId,
         },
     });
 
