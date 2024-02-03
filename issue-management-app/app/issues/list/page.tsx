@@ -26,10 +26,17 @@ const IssuesPage = async ({ searchParams }: Props) => {
     const status = statuses.includes(searchParams.status) // status가 존재하는지 확인(존재하면 해당 status를 반환, 존재하지 않으면 undefined 반환)
         ? (searchParams.status as Status)
         : undefined;
+
+    // orderBy가 존재하는지 확인(존재하면 해당 orderBy를 반환, 존재하지 않으면 undefined 반환)
+    const orderBy = columns.map((column) => column.value).includes(searchParams.orderBy)
+        ? { [searchParams.orderBy]: 'asc' }
+        : undefined;
+
     const issues = await prisma.issue.findMany({
         where: {
             status,
         },
+        orderBy,
     });
 
     return (
