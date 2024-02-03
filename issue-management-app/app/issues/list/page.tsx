@@ -1,27 +1,58 @@
 import React from 'react';
 import { Table } from '@radix-ui/themes';
-import Link from '../components/Link';
+import Link from '../../components/Link';
 import prisma from '@/prisma/client';
+import { Issue, Status } from '@prisma/client';
 import IssueStatusBadge from '@/app/components/IssueStatusBadge';
 import IssueActions from './issueActions';
+import NextLink from 'next/link';
+import { ArrowUpIcon } from '@radix-ui/react-icons';
 
-const IssuesPage = async () => {
-    const issues = await prisma.issue.findMany();
-    // tailwindcss에서는 반응형 웹을 위해 hidden 클래스를 제공
-    // md -> 중간 사이즈 이상일 경우, table-cell 클래스를 추가하여 테이블 셀로 표시
+interface Props {
+    searchParams: { status: Status; orderBy: keyof Issue };
+}
+
+// tailwindcss에서는 반응형 웹을 위해 hidden 클래스를 제공
+// md -> 중간 사이즈 이상일 경우, table-cell 클래스를 추가하여 테이블 셀로 표시
+
+const IssuesPage = async ({ searchParams }: Props) => {
+    const columns: { label: string; value: keyof Issue; className?: string }[] = [
+        { label: 'Issue', value: 'title' },
+        { label: 'Status', value: 'status', className: 'hidden md:table-cell' },
+        { label: 'Created At', value: 'createdAt', className: 'hidden md:table-cell' },
+    ];
+
+    const statuses = Object.values(Status); // 객체를 key, value로 열거함
+    const status = statuses.includes(searchParams.status) // status가 존재하는지 확인(존재하면 해당 status를 반환, 존재하지 않으면 undefined 반환)
+        ? (searchParams.status as Status)
+        : undefined;
+    const issues = await prisma.issue.findMany({
+        where: {
+            status,
+        },
+    });
 
     return (
         <div>
             <IssueActions />
             <Table.Root variant="surface">
                 <Table.Header>
-                    <Table.ColumnHeaderCell>Title</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell className="hidden md:table-cell">
-                        Status
-                    </Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell className="hidden md:table-cell">
-                        CreatedAt(생성일자)
-                    </Table.ColumnHeaderCell>
+                    <Table.Row>
+                        {columns.map((column) => (
+                            <Table.ColumnHeaderCell key={column.value}>
+                                <NextLink
+                                    href={{
+                                        query: { ...searchParams, orderBy: column.value },
+                                    }}
+                                >
+                                    {column.label}
+                                </NextLink>
+                                {column.value === searchParams.orderBy && (
+                                    <ArrowUpIcon className="inline" />
+                                )}
+                            </Table.ColumnHeaderCell>
+                        ))}
+                    </Table.Row>
                 </Table.Header>
                 <Table.Body>
                     {issues.map((issue, idx) => (
