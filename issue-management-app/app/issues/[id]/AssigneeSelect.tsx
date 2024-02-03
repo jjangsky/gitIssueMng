@@ -5,6 +5,7 @@ import { Select } from '@radix-ui/themes';
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useQuery } from 'react-query';
+import toast, { Toaster } from 'react-hot-toast';
 
 const AssigneeSelect = ({ issue }: { issue: Issue }) => {
     const {
@@ -35,28 +36,35 @@ const AssigneeSelect = ({ issue }: { issue: Issue }) => {
 
     return (
         // 해당 컴포넌트는 브라우저 API를 사용하기 때문에 use client 지시
-        <Select.Root
-            defaultValue={issue.assignedToUserId || 'unassigned'}
-            onValueChange={(userId) => {
-                axios.patch(`/api/issues/` + issue.id, {
-                    assignedToUserId: userId === 'unassigned' ? null : userId,
-                });
-            }}
-        >
-            <Select.Trigger placeholder="담당자..." />
-            <Select.Content>
-                <Select.Group>
-                    <Select.Label>Suggestions</Select.Label>
-                    <Select.Item value="">담당자가 존재하지 않습니다.</Select.Item>
-                    {users?.map((user) => (
-                        <Select.Item key={user.id} value={user.id}>
-                            {user.name}
-                        </Select.Item>
-                    ))}
-                    ;
-                </Select.Group>
-            </Select.Content>
-        </Select.Root>
+        <>
+            <Select.Root
+                defaultValue={issue.assignedToUserId || 'unassigned'}
+                onValueChange={(userId) => {
+                    axios
+                        .patch(`/api/issues/` + issue.id, {
+                            assignedToUserId: userId === 'unassigned' ? null : userId,
+                        })
+                        .catch(() => {
+                            toast.error('Failed to update assignee');
+                        });
+                }}
+            >
+                <Select.Trigger placeholder="담당자..." />
+                <Select.Content>
+                    <Select.Group>
+                        <Select.Label>Suggestions</Select.Label>
+                        <Select.Item value="">담당자가 존재하지 않습니다.</Select.Item>
+                        {users?.map((user) => (
+                            <Select.Item key={user.id} value={user.id}>
+                                {user.name}
+                            </Select.Item>
+                        ))}
+                        ;
+                    </Select.Group>
+                </Select.Content>
+            </Select.Root>
+            <Toaster />
+        </>
     );
 };
 
