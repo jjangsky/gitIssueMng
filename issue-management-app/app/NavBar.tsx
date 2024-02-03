@@ -41,7 +41,7 @@ const NavLinks = () => {
     const currentPath = usePathname();
     const links = [
         { lavel: 'Dashboard', href: '/' },
-        { lavel: 'Issues', href: '/issues' },
+        { lavel: 'Issues', href: '/issues/list' },
     ];
     return (
         <ul className="flex space-x-6">
