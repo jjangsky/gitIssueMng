@@ -28,7 +28,7 @@ const Pagination = ({ itemCount, pageSize, currentPage }: Props) => {
         // 쿼리 param을 유지하면서 새로운 param을 추가하는 방식
         const params = new URLSearchParams(searchParams);
         params.set('page', page.toString());
-        router.push('?' + params.toString);
+        router.push('?' + params.toString());
     };
 
     return (

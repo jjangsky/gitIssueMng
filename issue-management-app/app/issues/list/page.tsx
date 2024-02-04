@@ -7,9 +7,10 @@ import IssueStatusBadge from '@/app/components/IssueStatusBadge';
 import IssueActions from './issueActions';
 import NextLink from 'next/link';
 import { ArrowUpIcon } from '@radix-ui/react-icons';
+import Pagination from '@/app/components/Pagination';
 
 interface Props {
-    searchParams: { status: Status; orderBy: keyof Issue };
+    searchParams: { status: Status; orderBy: keyof Issue; page: string };
 }
 
 // tailwindcss에서는 반응형 웹을 위해 hidden 클래스를 제공
@@ -32,12 +33,21 @@ const IssuesPage = async ({ searchParams }: Props) => {
         ? { [searchParams.orderBy]: 'asc' }
         : undefined;
 
+    const page = parseInt(searchParams.page) || 1; // page가 존재하는지 확인(존재하면 해당 page를 반환, 존재하지 않으면 1을 반환
+    const pageSize = 10;
+
+    const where = {
+        status,
+    };
+
     const issues = await prisma.issue.findMany({
-        where: {
-            status,
-        },
+        where,
         orderBy,
+        skip: (page - 1) * pageSize,
+        take: pageSize,
     });
+
+    const issueCount = await prisma.issue.count({ where });
 
     return (
         <div>
@@ -80,6 +90,7 @@ const IssuesPage = async ({ searchParams }: Props) => {
                     ))}
                 </Table.Body>
             </Table.Root>
+            <Pagination pageSize={pageSize} currentPage={page} itemCount={issueCount} />
         </div>
     );
 };
