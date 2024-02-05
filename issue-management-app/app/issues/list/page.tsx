@@ -6,6 +6,7 @@ import { Issue, Status } from '@prisma/client';
 import IssueActions from './issueActions';
 import Pagination from '@/app/components/Pagination';
 import IssueTable, { IssueQuery, columnNames } from './IssueTable';
+import { Metadata } from 'next';
 
 // tailwindcss에서는 반응형 웹을 위해 hidden 클래스를 제공
 // md -> 중간 사이즈 이상일 경우, table-cell 클래스를 추가하여 테이블 셀로 표시
@@ -72,3 +73,8 @@ export const dynamic = 'force-dynamic';
  */
 
 export default IssuesPage;
+
+export const metadata: Metadata = {
+    title: 'Issue Management System - Issue List',
+    description: '모든 이슈를 확인할 수 있습니다. (페이지네이션, 필터링, 그리고 정렬)',
+};
