@@ -4,6 +4,7 @@ import IssueSummary from './IssueSummary';
 import LatestIssues from './LatestIssues';
 import Pagination from './components/Pagination';
 import prisma from '@/prisma/client';
+import { Metadata } from 'next';
 
 export default async function Home({ searchParams }: { searchParams: { page: string } }) {
     const open = await prisma.issue.count({ where: { status: 'OPEN' } });
@@ -20,3 +21,8 @@ export default async function Home({ searchParams }: { searchParams: { page: str
         </Grid>
     );
 }
+
+export const metadata: Metadata = {
+    title: 'Issue Management System - Dashboard',
+    description: '이슈 상태를 간략하게 확인할 수 있습니다.',
+};
