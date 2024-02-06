@@ -8,6 +8,7 @@ generator client {
 datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
+  relationMode = "prisma"
 }
 
 //모델 설정 시, 이름은 맨 앞에 대문자와로 설정하고 단수로 설정해야함

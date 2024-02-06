@@ -22,6 +22,8 @@ export default async function Home({ searchParams }: { searchParams: { page: str
     );
 }
 
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
     title: 'Issue Management System - Dashboard',
     description: '이슈 상태를 간략하게 확인할 수 있습니다.',
