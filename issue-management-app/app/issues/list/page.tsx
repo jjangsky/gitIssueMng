@@ -52,7 +52,6 @@ const IssuesPage = async ({ searchParams }: Props) => {
     );
 };
 
-export const dynamic = 'force-dynamic';
 // export const revalidate = 60; // 60초마다 재검증 처리
 /**
  * 동적 렌더링 -> 요청 시점에 라우터가 렌더링됨
@@ -73,6 +72,8 @@ export const dynamic = 'force-dynamic';
  */
 
 export default IssuesPage;
+
+export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
     title: 'Issue Management System - Issue List',
