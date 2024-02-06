@@ -30,23 +30,26 @@ const DeleteIssueButton = ({ issueId }: { issueId: number }) => {
         <>
             <AlertDialog.Root>
                 <AlertDialog.Trigger>
-                    <Button color="red" disabled={isDeleting}>
+                    <button
+                        className="bg-red-500 rounded-md py-2 text-white text-xs font-bold"
+                        disabled={isDeleting}
+                    >
                         Delete Button {isDeleting && <Spinner />}
-                    </Button>
+                    </button>
                 </AlertDialog.Trigger>
                 <AlertDialog.Content>
                     <AlertDialog.Title>Confirm Deletion</AlertDialog.Title>
                     <AlertDialog.Description> 정말 삭제하시길 원합니까?</AlertDialog.Description>
                     <Flex mt="4" gap="3">
                         <AlertDialog.Cancel>
-                            <Button variant="soft" color="gray">
+                            <button className="bg-whire border border-gray-500 rounded-md px-4">
                                 Cancel
-                            </Button>
+                            </button>
                         </AlertDialog.Cancel>
                         <AlertDialog.Action>
-                            <Button onClick={onDelete} color="red">
+                            <button className="bg-red-500 rounded-md px-2 text-white text-xs font-bold">
                                 Delete
-                            </Button>
+                            </button>
                         </AlertDialog.Action>
                     </Flex>
                 </AlertDialog.Content>
@@ -55,9 +58,12 @@ const DeleteIssueButton = ({ issueId }: { issueId: number }) => {
                 <AlertDialog.Content>
                     <AlertDialog.Title>Error</AlertDialog.Title>
                     <AlertDialog.Description>이슈 삭제 오류 발생.</AlertDialog.Description>
-                    <Button color="gray" variant="soft" mt="2" onClick={() => setError(false)}>
+                    <button
+                        className="mt-2 bg-gray-200 border border-gray-300 rounded-md px-3 py-1 text-sm"
+                        onClick={() => setError(false)}
+                    >
                         확인
-                    </Button>
+                    </button>
                 </AlertDialog.Content>
             </AlertDialog.Root>
         </>
