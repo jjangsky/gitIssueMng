@@ -13,7 +13,6 @@ import { Metadata } from 'next';
 
 interface Props {
     searchParams: IssueQuery;
-    issues: Issue[];
 }
 
 const IssuesPage = async ({ searchParams }: Props) => {
