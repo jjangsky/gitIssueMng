@@ -9,6 +9,7 @@ import toast, { Toaster } from 'react-hot-toast';
 
 const AssigneeSelect = ({ issue }: { issue: Issue }) => {
     const { data: users, error, isLoading } = useUsers(); // react-query 사용
+    // test
 
     if (isLoading) return <Skeleton />;
     if (error) return null;
