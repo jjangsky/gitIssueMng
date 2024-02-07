@@ -53,7 +53,6 @@ const AssigneeSelect = ({ issue }: { issue: Issue }) => {
                                 {user.name}
                             </Select.Item>
                         ))}
-                        ;
                     </Select.Group>
                 </Select.Content>
             </Select.Root>
